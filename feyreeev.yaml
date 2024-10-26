@@ -1,0 +1,221 @@
+esphome:
+  name: feyreeev
+  name_add_mac_suffix: true
+  project:
+    name: "feyreeev.vasy"
+    version: "0.9.0"
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: ESP32C3
+
+api:
+  reboot_timeout: 0s
+
+web_server:
+  port: 80
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: $wifi_ssid
+  password: $wifi_password
+  ap:
+    ssid: "$name Fallback Hotspot"
+    password: $wifi_ap_password
+
+button:
+  - platform: restart
+    name: "Restart"
+
+uart:
+  rx_pin: GPIO20
+  tx_pin: GPIO21
+  baud_rate: 9600
+
+tuya:
+  time_id: sntp_time
+
+sensor:
+  - platform: "tuya"
+    sensor_datapoint: 102
+    id: voltagel1
+    name: "Voltage L1"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "V"
+    icon: "mdi:sine-wave"
+    device_class: "Voltage"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 103
+    id: voltagel2
+    name: "Voltage L2"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "V"
+    icon: "mdi:sine-wave"
+    device_class: "Voltage"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 104
+    id: voltagel3
+    name: "Voltage L3"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "V"
+    icon: "mdi:sine-wave"
+    device_class: "Voltage"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 105
+    id: currentl1
+    name: "Current L1"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "A"
+    icon: "mdi:current-ac"
+    device_class: "current"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 106
+    id: currentl2
+    name: "Current L2"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "A"
+    icon: "mdi:current-ac"
+    device_class: "current"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 107
+    id: currentl3
+    name: "Current L3"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "A"
+    icon: "mdi:current-ac"
+    device_class: "current"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 109
+    id: power
+    name: "Charging Power"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "kW"
+    icon: "mdi:flash"
+    device_class: "power"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 110
+    id: temperature
+    name: "Device Temperature"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "°C"
+    icon: "mdi:thermometer"
+    device_class: "temperature"
+    state_class: measurement
+
+  - platform: "tuya"
+    sensor_datapoint: 112
+    id: energy
+    name: "Charged Energy"
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+    unit_of_measurement: "kWh"
+    icon: "mdi:sigma"
+    device_class: "energy"
+    state_class: measurement
+
+# TODO
+# Errors bitmak
+  - platform: "tuya"
+    sensor_datapoint: 10
+    id: error
+    name: "Error"
+
+# TODO
+# Status enum
+# 0 disconnetted (green)
+# 1 green blink
+# 2 charging (blue blink)
+# 4 not (stoped) charging (blue)
+  - platform: "tuya"
+    sensor_datapoint: 101
+    id: status
+    name: "Status"
+
+text_sensor:
+  - platform: "tuya"
+    sensor_datapoint: 120
+    id: time0
+    name: "Charging Time"
+
+  - platform: "tuya"
+    sensor_datapoint: 121
+    id: time1
+    name: "Charge Time"
+
+  - platform: "tuya"
+    sensor_datapoint: 122
+    id: time2
+    name: "Delay Time"
+
+switch:
+  - platform: "tuya"
+    id: start
+    name: "Start Charge"
+    switch_datapoint: 123
+    icon: "mdi:power"
+
+number:
+  - platform: "tuya"
+    name: "Charge Current"
+    number_datapoint: 114
+    min_value: 8
+    max_value: 16
+    step: 1
+    unit_of_measurement: "A"
+
+  - platform: "tuya"
+    name: "Delay Time"
+    number_datapoint: 118
+    min_value: 0
+    max_value: 15
+    step: 1
+    unit_of_measurement: "H"
+
+  - platform: "tuya"
+    name: "Charge Time"
+    number_datapoint: 119
+    min_value: 0
+    max_value: 15
+    step: 1
+    unit_of_measurement: "H"
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: "Europe/Moscow"
+
+logger:
+  baud_rate: 0
